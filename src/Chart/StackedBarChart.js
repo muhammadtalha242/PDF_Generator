@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { dateIsBetween,normalize_data } from '../util/utility'
-import "./Test.css"
+import { dateIsBetween, normalize_data } from '../util/utility'
 
 import {
   select,
@@ -12,10 +11,11 @@ import {
   axisLeft,
   stackOrderAscending,
   timeFormat,
+  pointer,
   min,
-  color
 } from "d3";
-import useResizeObserver from "./useResizeObserver";
+
+import useResizeObserver from "./Components/useResizeObserver";
 
 /**
  * Component that renders a StackedBarChart
@@ -23,23 +23,24 @@ import useResizeObserver from "./useResizeObserver";
 
 function StackedBarChart({ data, date, sensors }) {
 
-  const colorsArr = ['purple', "orange", "green","black" ]
+  const colorsArr = ['purple', "orange", "green", "black"]
   const colors = {};
   sensors.forEach((senson, i) => {
-    
+
     colors[senson] = colorsArr[i]
   });
-  console.log("colors: ",colors)
   const svgRef = useRef();
   const wrapperRef = useRef();
   const dimensions = useResizeObserver(wrapperRef);
   const outputData = []
 
+  
+
   // will be called initially and on every data change
   useEffect(() => {
-    const svg = select(svgRef.current);
     const { width, height } =
       dimensions || wrapperRef.current.getBoundingClientRect();
+    const svg = select(svgRef.current);
 
 
 
@@ -49,11 +50,11 @@ function StackedBarChart({ data, date, sensors }) {
 
       if (dateIsBetween(d.Date, date)) {
         let dRow = {}
-        if (sensors.length ===4) {
-          dRow["Date"] = d.Date;          
-          dRow.temperature = normalize_data(d.avg_temp, min(data,(x) => x.avg_temp), max(data, (x) => x.avg_temp))
+        if (sensors.length === 4) {
+          dRow["Date"] = d.Date;
+          dRow.temperature = normalize_data(d.avg_temp, min(data, (x) => x.avg_temp), max(data, (x) => x.avg_temp))
           dRow.co2 = normalize_data(d.avg_co2, min(data, (x) => x.avg_co2), max(data, (x) => x.avg_co2))
-          dRow.humitidy =  normalize_data(d.avg_humitidy, min(data, (x) => x.avg_humitidy), max(data, (x) => x.avg_humitidy))
+          dRow.humitidy = normalize_data(d.avg_humitidy, min(data, (x) => x.avg_humitidy), max(data, (x) => x.avg_humitidy))
           dRow.vpd = normalize_data(d.avg_vpd, min(data, (x) => x.avg_vpd), max(data, (x) => x.avg_vpd))
 
           outputData.push(dRow);
@@ -69,18 +70,16 @@ function StackedBarChart({ data, date, sensors }) {
         }
       }
 
+
     })
-    console.log("outputData =>: ", outputData)
 
-
-
+    console.log("outputData: ", outputData)
 
     // stacks / layers
     const stackGenerator = stack()
       .keys(sensors)
       .order(stackOrderAscending);
     const layers = stackGenerator(outputData);
-    console.log("layer:=>", layers)
 
     const extent = [
       0,
@@ -88,13 +87,12 @@ function StackedBarChart({ data, date, sensors }) {
     ];
 
 
-    console.log("extent:=>", extent)
 
     // scales
     const xScale = scaleBand()
       .domain(outputData.map(d => new Date(d.Date).getTime()))
       .range([0, width])
-      .padding(0.4);
+      .padding(0.11);
 
     const yScale = scaleLinear()
       .domain(extent)
@@ -113,12 +111,46 @@ function StackedBarChart({ data, date, sensors }) {
       .attr("x", sequence => xScale(new Date(sequence.data.Date).getTime()))
       .attr("width", xScale.bandwidth())
       .attr("y", sequence => yScale(sequence[1]))
-      .attr("height", sequence => yScale(sequence[0]) - yScale(sequence[1]));
+      .attr("height", sequence => yScale(sequence[0]) - yScale(sequence[1]))
+      .on("mouseover", function () { tooltip.style("display", null); })
+      .on("mouseout", function () { tooltip.style("display", "none"); })
+      .on("mousemove", function (d) {
+        var xPosition = pointer(d, svg.node)[0];
+        var yPosition = pointer(d, svg.node)[1];
+        tooltip.attr("transform", `translate( ${xPosition - 90}, ${yPosition - 100})`);
+        tooltip.select("text").text("ToolTip");
+      });
+    var tooltip = svg.append("g")
+      .attr("class", "tooltip")
+      .style("display", "none");
+
+    tooltip.append("text")
+      .attr("dy", "1.2em")
+      .style("text-anchor", "middle")
+      .attr("font-size", "15px")
+      .attr("font-weight", "bold");
+
+    svg.append("text")
+      .attr("class", "x label")
+      .attr("text-anchor", "end")
+      .attr("x", width / 2)
+      .attr("y", height + 40)
+      .text("Date Month");
+
+    svg.append("text")
+      .attr("class", "y label")
+      .attr("text-anchor", "end")
+      .attr("y", -40)
+      .attr("x", (-height / 2) + 50)
+      .attr("dy", ".75em")
+      .attr("transform", "rotate(-90)")
+      .text("Sensor Data");
 
     // axes
     const xAxis = axisBottom(xScale).scale(xScale)
       .tickFormat(timeFormat("%d %b"))
       .tickValues(xScale.domain().filter(function (d, i) { return !(i % 600) }));
+
     svg
       .select(".x-axis")
       .attr("transform", `translate(0, ${height})`)
@@ -127,7 +159,10 @@ function StackedBarChart({ data, date, sensors }) {
     const yAxis = axisLeft(yScale);
     svg.select(".y-axis").call(yAxis);
 
-  }, [outputData, data, date, sensors, dimensions,colors]);
+
+
+
+  }, [outputData, data, date, sensors, dimensions, colors]);
 
   return (
     <React.Fragment>
@@ -135,6 +170,7 @@ function StackedBarChart({ data, date, sensors }) {
         <svg ref={svgRef}>
           <g className="x-axis" />
           <g className="y-axis" />
+
         </svg>
       </div>
     </React.Fragment>

@@ -40,3 +40,17 @@
 .mark {
   fill: #86af49;
 }
+
+svg {
+  display: block;
+  width: 100%;
+  height: 450px;
+  background: #f7f7f7;
+  overflow: visible;
+}
+
+svg rect.selection {
+  stroke: none;
+}
+
+
