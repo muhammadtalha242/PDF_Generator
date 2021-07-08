@@ -11,8 +11,11 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 120,
     },
     selectEmpty: {
-        marginTop: theme.spacing(2),
+        marginTop: theme.spacing(6),
     },
+    elementPadding:{
+        padding: theme.spacing(6),
+    }
 }));
 
 
@@ -29,7 +32,7 @@ export default function DataSelect({ currentSensor, setcurrentSensor, dataSetSel
         setDisplay(!display);
     };
     return (
-        <div>
+        <div className={classes.selectEmpty}>
             <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel id="demo-simple-select-outlined-label">Sensors</InputLabel>
                 <Select
@@ -46,7 +49,7 @@ export default function DataSelect({ currentSensor, setcurrentSensor, dataSetSel
                     }
 
                 </Select>
-                <Button variant="outlined" color="primary" onClick={clickHandler}>
+                <Button variant="outlined" color="primary"  onClick={clickHandler}>
                     {display? "View PDF Report" : "Back"}
                 </Button>
             </FormControl>

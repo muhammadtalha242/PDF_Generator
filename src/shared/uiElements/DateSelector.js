@@ -14,9 +14,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         '& > *': {
             margin: theme.spacing(1),
-
         },
-        
     },
 }));
 const selectionRange = {
@@ -29,9 +27,11 @@ const selectionRange = {
 export function DateSelectorButtonGroup({ dateSelector, currentDate, setCurrentDate }) {
     const classes = useStyles();
     const [display, setDisplay] = React.useState(false);
-
+    const [range, setRange] = React.useState({ startDate: dateSelector[0].days, endDate: undefined }); 
     const handleSelect = (ranges) => {
         console.log("Range ", ranges);
+        setRange(ranges)
+        setDisplay(false)
         // {
         //   selection: {
         //     startDate: [native Date Object],
@@ -49,6 +49,7 @@ export function DateSelectorButtonGroup({ dateSelector, currentDate, setCurrentD
         }
         let result = { startDate: tempDate.days, endData: undefined };
         setCurrentDate(result);
+
     };
     if (display) {
         return (<DateRangePicker
@@ -62,10 +63,11 @@ export function DateSelectorButtonGroup({ dateSelector, currentDate, setCurrentD
 
             <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
                 {dateSelector.map(d => (
-                    <Button onClick={handleChange} key={d.key}>{d.key}</Button>
+                    <Button onClick={handleChange}  key={d.key}>{d.key}</Button>
                 ))}
 
             </ButtonGroup>
+
 
         </div>
         );
