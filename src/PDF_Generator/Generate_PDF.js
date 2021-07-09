@@ -35,7 +35,9 @@ import html2canvas from 'html2canvas'
 import { jsPDF } from "jspdf";
 import html2PDF from 'jspdf-html2canvas';
 import domtoimage from 'dom-to-image';
-export const GeneratePDF = React.forwardRef((props, ref) => {
+import Button from '@material-ui/core/Button';
+
+export const GeneratePDF = (props) => {
     const printDocument = () => {
         const input = document.getElementById('divToPrint');
 
@@ -76,12 +78,12 @@ export const GeneratePDF = React.forwardRef((props, ref) => {
     if (props.display) {
         return <React.Fragment>
 
-            <button onClick={printDocument}>Print</button>
+            <Button variant="outlined" color="primary" aria-label="text primary button" onClick={printDocument}>Print</Button>
 
         </React.Fragment>;
     }
     return <React.Fragment></React.Fragment>
-})
+}
 
 
 

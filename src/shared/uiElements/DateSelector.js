@@ -24,10 +24,10 @@ const selectionRange = {
 }
 
 
-export function DateSelectorButtonGroup({ dateSelector, currentDate, setCurrentDate }) {
+export function DateSelectorButtonGroup({ dateSelector, currentDate, setCurrentDate, display }) {
     const classes = useStyles();
-    const [display, setDisplay] = React.useState(false);
-    const [range, setRange] = React.useState({ startDate: dateSelector[0].days, endDate: undefined }); 
+    const [RangeDisplay, setDisplay] = React.useState(false);
+    const [range, setRange] = React.useState({ startDate: dateSelector[0].days, endDate: undefined });
     const handleSelect = (ranges) => {
         console.log("Range ", ranges);
         setRange(ranges)
@@ -45,31 +45,34 @@ export function DateSelectorButtonGroup({ dateSelector, currentDate, setCurrentD
 
         console.log(tempDate.days === 0)
         if (tempDate.days === 0) {
-            setDisplay(!display)
+            setDisplay(!RangeDisplay)
         }
         let result = { startDate: tempDate.days, endData: undefined };
         setCurrentDate(result);
 
     };
-    if (display) {
+    if (RangeDisplay) {
         return (<DateRangePicker
             ranges={[selectionRange]}
             onChange={handleSelect}
         />)
     }
 
-    return (
-        <div className={classes.root}>
 
-            <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
-                {dateSelector.map(d => (
-                    <Button onClick={handleChange}  key={d.key}>{d.key}</Button>
-                ))}
+    if (!display) {
+        return (
+            <div className={classes.root}>
 
-            </ButtonGroup>
+                <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
+                    {dateSelector.map(d => (
+                        <Button onClick={handleChange} key={d.key}>{d.key}</Button>
+                    ))}
+
+                </ButtonGroup>
 
 
-        </div>
+            </div>
         );
-
+    }
+    return <React.Fragment></React.Fragment>
 }

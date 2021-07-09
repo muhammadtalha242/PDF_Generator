@@ -11,7 +11,6 @@ import Button from '@material-ui/core/Button';
 import { ReportHeader } from "./PDF_Generator/Components/ReportHeader"
 import { ReportBody } from "./PDF_Generator/Components/ReportBody"
 import { GeneratePDF } from "./PDF_Generator/Generate_PDF"
-import Export from "./PDF_Generator/Test"
 
 import "./App.css"
 
@@ -23,7 +22,6 @@ const App = () => {
   const [currentSensor, setcurrentSensor] = React.useState(dataSetSelecots[0].value);
   const [currentDate, setCurrentDate] = React.useState({ startDate: dateSelector[0].days, endDate: undefined });
   const [display, setDisplay] = React.useState(false)
-  const ref = React.createRef();
 
   const clickHandler = (event) => {
 
@@ -37,12 +35,11 @@ const App = () => {
 
   return (
     <React.Fragment >
-{/* id="divToPrint"  */}
       <Grid container spacing={3} >
         <Grid item md={1}></Grid>
-        <Grid item md={9} >
-          <ReportHeader display={display} ref={ref} />
-          <DateSelectorButtonGroup currentDate={currentDate} setCurrentDate={setCurrentDate} dateSelector={dateSelector} />
+         <Grid item md={9}  id="divToPrint" >
+          <ReportHeader display={display}  />
+          <DateSelectorButtonGroup currentDate={currentDate} setCurrentDate={setCurrentDate} dateSelector={dateSelector} display={display} />
           <ReportBody display={display}>Graph Title</ReportBody>
          
           <StackedBarChart data={data} date={currentDate} sensors={currentSensor} />
@@ -52,7 +49,7 @@ const App = () => {
           <Button variant="outlined" color="primary" onClick={clickHandler}>
             {!display ? "View PDF Report" : "Back"}
           </Button>
-          <GeneratePDF display={display} ref={ref} />
+          <GeneratePDF display={display}  />
         </Grid>
       </Grid>
 
