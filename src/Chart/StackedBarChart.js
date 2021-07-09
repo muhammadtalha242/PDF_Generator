@@ -91,7 +91,7 @@ function StackedBarChart({ data, date, sensors }) {
     // scales
     const xScale = scaleBand()
       .domain(outputData.map(d => {
-        return new Date(d.Date).getTime()}))
+        return new Date(d.Date).getHours()}))
       .range([0, width])
       .padding(0.2);
 
@@ -109,7 +109,7 @@ function StackedBarChart({ data, date, sensors }) {
       .selectAll("rect")
       .data(layer => layer)
       .join("rect")
-      .attr("x", sequence => xScale(new Date(sequence.data.Date).getTime()))
+      .attr("x", sequence => xScale(new Date(sequence.data.Date).getHours()))
       .attr("width", xScale.bandwidth())
       .attr("y", sequence => yScale(sequence[1]))
       .attr("height", sequence => yScale(sequence[0]) - yScale(sequence[1]))

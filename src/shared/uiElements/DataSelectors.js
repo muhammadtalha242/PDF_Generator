@@ -4,7 +4,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
 const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: theme.spacing(1),
@@ -27,10 +26,7 @@ export default function DataSelect({ currentSensor, setcurrentSensor, dataSetSel
 
         setcurrentSensor(event.target.value);
     };
-    const clickHandler = (event) => {
-
-        setDisplay(!display);
-    };
+    
     return (
         <div className={classes.selectEmpty}>
             <FormControl variant="outlined" className={classes.formControl}>
@@ -49,9 +45,7 @@ export default function DataSelect({ currentSensor, setcurrentSensor, dataSetSel
                     }
 
                 </Select>
-                <Button variant="outlined" color="primary"  onClick={clickHandler}>
-                    {display? "View PDF Report" : "Back"}
-                </Button>
+               
             </FormControl>
         </div>
     );
