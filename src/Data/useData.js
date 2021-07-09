@@ -39,7 +39,7 @@ export const useData = () => {
 
 
       
-      setData(outputCSV.slice(0,1000));
+      setData(outputCSV);
 
 
     }

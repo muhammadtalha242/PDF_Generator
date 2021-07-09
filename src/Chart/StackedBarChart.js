@@ -90,9 +90,10 @@ function StackedBarChart({ data, date, sensors }) {
 
     // scales
     const xScale = scaleBand()
-      .domain(outputData.map(d => new Date(d.Date).getTime()))
+      .domain(outputData.map(d => {
+        return new Date(d.Date).getTime()}))
       .range([0, width])
-      .padding(0.11);
+      .padding(0.2);
 
     const yScale = scaleLinear()
       .domain(extent)
@@ -149,7 +150,9 @@ function StackedBarChart({ data, date, sensors }) {
     // axes
     const xAxis = axisBottom(xScale).scale(xScale)
       .tickFormat(timeFormat("%d %b"))
-      .tickValues(xScale.domain().filter(function (d, i) { return !(i % 600) }));
+      .tickValues(xScale.domain().filter(function (d, i) { 
+        return !(i % 400) 
+      }));
 
     svg
       .select(".x-axis")
