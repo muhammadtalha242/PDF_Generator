@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { dateIsBetween, normalize_data } from '../util/utility'
+import { dateIsBetween, normalize_data } from '../shared/util/utility'
 
 import {
   select,
@@ -31,17 +31,20 @@ function StackedBarChart({ data, date, sensors }) {
   });
   const svgRef = useRef();
   const wrapperRef = useRef();
-  const dimensions = useResizeObserver(wrapperRef);
+  // const dimensions = useResizeObserver(wrapperRef);
   const outputData = []
 
   
 
   // will be called initially and on every data change
   useEffect(() => {
-    const { width, height } =
-      dimensions || wrapperRef.current.getBoundingClientRect();
+    // const { width, height } =
+    //   dimensions || wrapperRef.current.getBoundingClientRect();
+    const width = 850;
+    const height = 450;
     const svg = select(svgRef.current);
 
+    console.log({ width, height })
 
 
     //Reshaping data accoring to need
@@ -165,7 +168,7 @@ function StackedBarChart({ data, date, sensors }) {
 
 
 
-  }, [outputData, data, date, sensors, dimensions, colors]);
+  }, [outputData, data, date, sensors,  colors]);
 
   return (
     <React.Fragment>

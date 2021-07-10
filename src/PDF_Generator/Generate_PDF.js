@@ -44,10 +44,11 @@ export const GeneratePDF = (props) => {
          
         domtoimage.toPng(input)
             .then(function (dataUrl) {
-                const pdf = new jsPDF();
-                pdf.addImage(dataUrl, 'PNG', 0, 0);
+                console.log("dataUrl: ", dataUrl)
+                // const pdf = new jsPDF();
+                // pdf.addImage(dataUrl, 'PNG', 0, 0);
                 //         // pdf.output('dataurlnewwindow');
-                pdf.save("download.pdf");
+                // pdf.save("download.pdf");
                 // var img = new Image();
                 // img.src = dataUrl;
                 // console.log("dataUrl->",dataUrl)

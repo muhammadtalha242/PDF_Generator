@@ -1,0 +1,31 @@
+div  .main-text{
+    display: block;
+    text-align: center;
+} 
+div span{
+    display: block;
+    padding: 0.15%;
+}
+.company-name{
+    font-weight: bold;   
+    font-size: 1.17em;
+}
+
+.greenhouse-name{
+    font-weight: bold;   
+    font-style: italic;
+    font-size: 1.2em;
+}
+.report-details{
+    text-align: end;
+
+}
+.report-creater{
+    display: contents;
+
+}
+.d3-chart{
+    
+}
+
+
