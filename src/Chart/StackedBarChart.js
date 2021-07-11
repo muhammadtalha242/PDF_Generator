@@ -15,11 +15,21 @@ import {
   min,
 } from "d3";
 
-import useResizeObserver from "./Components/useResizeObserver";
 
 /**
  * Component that renders a StackedBarChart
  */
+
+const height = 500;
+const width = 760;
+const margin = {
+  top: 20,
+  right: 20,
+  left: 20,
+  bottom: 20,
+};
+const innerHeight = height - margin.top - margin.bottom;
+const innerWidth = width - margin.left - margin.right;
 
 function StackedBarChart({ data, date, sensors }) {
 
@@ -31,20 +41,15 @@ function StackedBarChart({ data, date, sensors }) {
   });
   const svgRef = useRef();
   const wrapperRef = useRef();
-  // const dimensions = useResizeObserver(wrapperRef);
   const outputData = []
 
-  
+
 
   // will be called initially and on every data change
   useEffect(() => {
-    // const { width, height } =
-    //   dimensions || wrapperRef.current.getBoundingClientRect();
-    const width = 850;
-    const height = 450;
+
     const svg = select(svgRef.current);
 
-    console.log({ width, height })
 
 
     //Reshaping data accoring to need
@@ -94,13 +99,14 @@ function StackedBarChart({ data, date, sensors }) {
     // scales
     const xScale = scaleBand()
       .domain(outputData.map(d => {
-        return new Date(d.Date).getHours()}))
-      .range([0, width])
+        return new Date(d.Date).getTime()
+      }))
+      .range([0, innerWidth])
       .padding(0.2);
 
     const yScale = scaleLinear()
       .domain(extent)
-      .range([height, 0]);
+      .range([innerHeight, 0]);
 
     // rendering
     svg
@@ -112,7 +118,7 @@ function StackedBarChart({ data, date, sensors }) {
       .selectAll("rect")
       .data(layer => layer)
       .join("rect")
-      .attr("x", sequence => xScale(new Date(sequence.data.Date).getHours()))
+      .attr("x", sequence => xScale(new Date(sequence.data.Date).getTime()))
       .attr("width", xScale.bandwidth())
       .attr("y", sequence => yScale(sequence[1]))
       .attr("height", sequence => yScale(sequence[0]) - yScale(sequence[1]))
@@ -125,7 +131,7 @@ function StackedBarChart({ data, date, sensors }) {
         tooltip.select("text").text("ToolTip");
       });
     var tooltip = svg.append("g")
-      .attr("class", "tooltip")
+      .attr("class", "tooltip") 
       .style("display", "none");
 
     tooltip.append("text")
@@ -137,15 +143,15 @@ function StackedBarChart({ data, date, sensors }) {
     svg.append("text")
       .attr("class", "x label")
       .attr("text-anchor", "end")
-      .attr("x", width / 2)
-      .attr("y", height + 40)
+      .attr("x", innerWidth / 2)
+      .attr("y", innerHeight + 40)
       .text("Date Month");
 
     svg.append("text")
       .attr("class", "y label")
       .attr("text-anchor", "end")
       .attr("y", -40)
-      .attr("x", (-height / 2) + 50)
+      .attr("x", (-innerHeight / 2) + 50)
       .attr("dy", ".75em")
       .attr("transform", "rotate(-90)")
       .text("Sensor Data");
@@ -153,13 +159,13 @@ function StackedBarChart({ data, date, sensors }) {
     // axes
     const xAxis = axisBottom(xScale).scale(xScale)
       .tickFormat(timeFormat("%d %b"))
-      .tickValues(xScale.domain().filter(function (d, i) { 
-        return !(i % 400) 
+      .tickValues(xScale.domain().filter(function (d, i) {
+        return !(i % 400)
       }));
 
     svg
       .select(".x-axis")
-      .attr("transform", `translate(0, ${height})`)
+      .attr("transform", `translate(0, ${innerHeight})`)
       .call(xAxis);
 
     const yAxis = axisLeft(yScale);
@@ -168,17 +174,20 @@ function StackedBarChart({ data, date, sensors }) {
 
 
 
-  }, [outputData, data, date, sensors,  colors]);
+  }, [outputData, data, date, sensors, colors]);
 
   return (
     <React.Fragment>
-      <div ref={wrapperRef} style={{ marginBottom: "2rem" }}>
-        <svg ref={svgRef}>
+
+      <svg ref={svgRef} width={width} height={height}>
+        <g
+          transform={`translate(${margin.left},${margin.top})`}
+        >
           <g className="x-axis" />
           <g className="y-axis" />
+        </g>
+      </svg>
 
-        </svg>
-      </div>
     </React.Fragment>
   );
 }

@@ -27,9 +27,9 @@ export const ReportBody = (props) => {
             </div>
 
 
-            <div className="d3-chart">
+            <span className="d3-chart">
                 {props.children}
-            </div>
+            </span>
 
         </React.Fragment>
     }

@@ -41,14 +41,20 @@ export const GeneratePDF = (props) => {
     const printDocument = () => {
         const input = document.getElementById('divToPrint');
 
-         
         domtoimage.toPng(input)
             .then(function (dataUrl) {
-                console.log("dataUrl: ", dataUrl)
-                // const pdf = new jsPDF();
-                // pdf.addImage(dataUrl, 'PNG', 0, 0);
-                //         // pdf.output('dataurlnewwindow');
-                // pdf.save("download.pdf");
+                var clientHeight = document.getElementById('divToPrint').clientHeight;
+                var clientWidth = document.getElementById('divToPrint').clientWidth;
+
+                console.log("clientWidth: ", clientWidth)
+                console.log("clientHeight: ", clientHeight)
+
+                var rect = input.getBoundingClientRect();
+                console.log("rect.top: ",rect.top, " rect.left:  " ,rect.left, " rect.right ", rect.right, " rect.bottom " , rect.bottom);
+                const pdf = new jsPDF();
+                pdf.addImage(dataUrl, 'PNG', 0, 0);
+                        // pdf.output('dataurlnewwindow');
+                pdf.save("download.pdf");
                 // var img = new Image();
                 // img.src = dataUrl;
                 // console.log("dataUrl->",dataUrl)

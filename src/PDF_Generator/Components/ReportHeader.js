@@ -12,7 +12,7 @@
 
 import { AppBar, Toolbar, Typography, makeStyles } from "@material-ui/core";
 import React from "react";
-
+import logo from "./logo.png"
 const useStyles = makeStyles(() => ({
   header: {
     backgroundColor: "white",
@@ -20,19 +20,19 @@ const useStyles = makeStyles(() => ({
     position:"inherit"
 
   },
-  logo:{
+  logoStyle:{
     maxWidth:"170px"
   }
 }))
 
 export default function ReportHeader({ display }) {
-  const { header, logo } = useStyles();
+  const { header, logoStyle } = useStyles();
   const displayDesktop = () => {
     return <Toolbar>{scimeticLogo}</Toolbar>;
   };
   const scimeticLogo = (
     <Typography variant="h6" component="h1">
-      <img src="https://www.scimetic.com/wp-content/uploads/2021/02/website_logo_transparent_background.png" alt="logo" className={logo} />
+      <img src={logo} alt="logo" className={logoStyle} />
     </Typography>
   );
 

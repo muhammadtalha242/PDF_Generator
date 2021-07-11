@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button';
 import ReportHeader from "./PDF_Generator/Components/ReportHeader"
 import { ReportBody } from "./PDF_Generator/Components/ReportBody"
 import { GeneratePDF } from "./PDF_Generator/Generate_PDF"
-
+import LoadingSpinner from "./shared/uiElements/LoadingSpinner"
 import "./App.css"
 
 
@@ -29,7 +29,11 @@ const App = () => {
   };
 
   if (!data) {
-    return <div>loading</div>
+    return (
+      <div className="center">
+        <LoadingSpinner />
+      </div>
+    )
   }
 
 
@@ -37,24 +41,26 @@ const App = () => {
     <React.Fragment >
 
       <Grid container  >
-        <Grid item md={1}></Grid>
-          <Grid item md={9} style={{maxWidth:'70%'}} id="divToPrint" >
+        <Grid item md={1} style={{  marginLeft:"10%"}} ></Grid>
+        <div id="divToPrint">
+          <Grid item md={9} style={{  maxWidth:"100%", backgroundColor:"green" }}  >
             <ReportHeader display={display} />
             <DateSelectorButtonGroup currentDate={currentDate} setCurrentDate={setCurrentDate} dateSelector={dateSelector} display={display} />
             <ReportBody display={display}>
 
-            <StackedBarChart data={data} date={currentDate} sensors={currentSensor} />
+              <StackedBarChart data={data} date={currentDate} sensors={currentSensor} />
             </ReportBody>
           </Grid>
-          <Grid item md={2} >
-            <DataSelect currentSensor={currentSensor} dataSetSelecots={dataSetSelecots} setcurrentSensor={setcurrentSensor} display={display} setDisplay={setDisplay} />
-            <Button variant="outlined" color="primary" onClick={clickHandler}>
-              {!display ? "View PDF Report" : "Back"}
-            </Button>
-            <GeneratePDF display={display} />
+        </div>
+        <Grid item md={2} >
+          <DataSelect currentSensor={currentSensor} dataSetSelecots={dataSetSelecots} setcurrentSensor={setcurrentSensor} display={display} setDisplay={setDisplay} />
+          <Button variant="outlined" color="primary" onClick={clickHandler}>
+            {!display ? "View PDF Report" : "Back"}
+          </Button>
+          <GeneratePDF display={display} />
 
-          </Grid>
-        
+        </Grid>
+
       </Grid>
 
 
