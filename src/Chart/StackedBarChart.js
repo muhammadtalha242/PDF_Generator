@@ -108,6 +108,7 @@ function StackedBarChart({ data, date, sensors }) {
       .domain(extent)
       .range([innerHeight, 0]);
 
+
     // rendering
     svg
       .selectAll(".layer")
@@ -122,6 +123,7 @@ function StackedBarChart({ data, date, sensors }) {
       .attr("width", xScale.bandwidth())
       .attr("y", sequence => yScale(sequence[1]))
       .attr("height", sequence => yScale(sequence[0]) - yScale(sequence[1]))
+      .attr("transform", `translate(${margin.left},${margin.top})`)
       .on("mouseover", function () { tooltip.style("display", null); })
       .on("mouseout", function () { tooltip.style("display", "none"); })
       .on("mousemove", function (d) {
@@ -131,7 +133,7 @@ function StackedBarChart({ data, date, sensors }) {
         tooltip.select("text").text("ToolTip");
       });
     var tooltip = svg.append("g")
-      .attr("class", "tooltip") 
+      .attr("class", "tooltip")
       .style("display", "none");
 
     tooltip.append("text")
@@ -186,8 +188,8 @@ function StackedBarChart({ data, date, sensors }) {
           <g className="x-axis" />
           <g className="y-axis" />
         </g>
-      </svg>
 
+      </svg>
     </React.Fragment>
   );
 }

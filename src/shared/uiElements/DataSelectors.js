@@ -7,26 +7,29 @@ import Select from '@material-ui/core/Select';
 const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: theme.spacing(1),
-        minWidth: 120,
+        minWidth: 120
     },
     selectEmpty: {
         marginTop: theme.spacing(6),
     },
-    elementPadding:{
+    elementPadding: {
         padding: theme.spacing(6),
+    },
+    colors:{
+    
     }
 }));
 
 
 
-export default function DataSelect({ currentSensor, setcurrentSensor, dataSetSelecots ,display, setDisplay }) {
+export default function DataSelect({ currentSensor, setcurrentSensor, dataSetSelecots, display, setDisplay }) {
     const classes = useStyles();
 
     const handleChange = (event) => {
 
         setcurrentSensor(event.target.value);
     };
-    
+
     return (
         <div className={classes.selectEmpty}>
             <FormControl variant="outlined" className={classes.formControl}>
@@ -45,7 +48,7 @@ export default function DataSelect({ currentSensor, setcurrentSensor, dataSetSel
                     }
 
                 </Select>
-               
+
             </FormControl>
         </div>
     );

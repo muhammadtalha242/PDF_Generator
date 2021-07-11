@@ -52,7 +52,7 @@ const App = () => {
             </ReportBody>
           </Grid>
         </div>
-        <Grid item md={2} >
+        <Grid item md={2} style={{  marginLeft:"5%"}}>
           <DataSelect currentSensor={currentSensor} dataSetSelecots={dataSetSelecots} setcurrentSensor={setcurrentSensor} display={display} setDisplay={setDisplay} />
           <Button variant="outlined" color="primary" onClick={clickHandler}>
             {!display ? "View PDF Report" : "Back"}
