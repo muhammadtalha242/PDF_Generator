@@ -24,8 +24,8 @@ const height = 500;
 const width = 760;
 const margin = {
   top: 20,
-  right: 20,
-  left: 20,
+  right: 10,
+  left: 50,
   bottom: 20,
 };
 const innerHeight = height - margin.top - margin.bottom;
@@ -33,7 +33,7 @@ const innerWidth = width - margin.left - margin.right;
 
 function StackedBarChart({ data, date, sensors }) {
 
-  const colorsArr = ['purple', "orange", "green", "black"]
+  const colorsArr = ['#7CFC00', "#228B22", "#4F7942", "#50C878"]
   const colors = {};
   sensors.forEach((senson, i) => {
 
@@ -129,8 +129,8 @@ function StackedBarChart({ data, date, sensors }) {
       .on("mousemove", function (d) {
         var xPosition = pointer(d, svg.node)[0];
         var yPosition = pointer(d, svg.node)[1];
-        tooltip.attr("transform", `translate( ${xPosition - 90}, ${yPosition - 100})`);
-        tooltip.select("text").text("ToolTip");
+        tooltip.attr("transform", `translate( ${xPosition-200 }, ${yPosition-100})`);
+        tooltip.select("text").text(layer => layer);
       });
     var tooltip = svg.append("g")
       .attr("class", "tooltip")
@@ -146,13 +146,13 @@ function StackedBarChart({ data, date, sensors }) {
       .attr("class", "x label")
       .attr("text-anchor", "end")
       .attr("x", innerWidth / 2)
-      .attr("y", innerHeight + 40)
+      .attr("y", innerHeight + 60)
       .text("Date Month");
 
     svg.append("text")
       .attr("class", "y label")
       .attr("text-anchor", "end")
-      .attr("y", -40)
+      .attr("y", (innerWidth / 2)-350)
       .attr("x", (-innerHeight / 2) + 50)
       .attr("dy", ".75em")
       .attr("transform", "rotate(-90)")
@@ -185,7 +185,7 @@ function StackedBarChart({ data, date, sensors }) {
         <g
           transform={`translate(${margin.left},${margin.top})`}
         >
-          <g className="x-axis" />
+          <g className="x-axis"></g> 
           <g className="y-axis" />
         </g>
 

@@ -30,7 +30,7 @@ export const ReportBody = (props) => {
             <span className="d3-chart">
                 {props.children}
             </span>
-
+            <p>More text can be added</p>
         </React.Fragment>
     }
     return <React.Fragment> {props.children}</React.Fragment>

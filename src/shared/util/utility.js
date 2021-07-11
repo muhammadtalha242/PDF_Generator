@@ -4,10 +4,17 @@ const currentTimeStamp= new Date().getTime();
 const daysOffSet = 40;
 const dayMilliseconds = daysOffSet*24*60*60*1000;
 
-export const dateIsBetween= (d, date)=>{
-    const {startDate, endDate}= date
-    const sDate =  new Date(currentTimeStamp - (startDate * dayMilliseconds))
-    return moment(d).isBetween(sDate, endDate)
+export const dateIsBetween= (currentObjectDate, givenDate)=>{
+    const {startDate, endDate}= givenDate
+
+    if(typeof startDate.getMonth === 'function' ){
+        return moment(currentObjectDate).isBetween(startDate, endDate)
+    }else{
+        const sDate =  new Date(currentTimeStamp - (startDate * dayMilliseconds))
+        return moment(currentObjectDate).isBetween(sDate, endDate)
+    }
+    
+   
 }
 
 const SVP=(temp)=>{

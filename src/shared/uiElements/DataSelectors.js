@@ -14,9 +14,6 @@ const useStyles = makeStyles((theme) => ({
     },
     elementPadding: {
         padding: theme.spacing(6),
-    },
-    colors:{
-    
     }
 }));
 

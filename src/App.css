@@ -33,8 +33,6 @@ div{
 
 svg {
   display: block;
-  
-  background: #86af49;
   overflow: visible;
 }
 
@@ -43,11 +41,10 @@ svg rect.selection {
 }
 
 #divToPrint{
-  background-color: #61dafb;
   min-height: 297mm;
-  width: 205mm;
-  padding-left: 1%;
-  padding-right: 1%;
+  width: 210mm;
+  background-color: #f5f8fa;
+  margin-top: 0;
 }
 
 .center {
@@ -55,5 +52,14 @@ svg rect.selection {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+button.Hover:hover {
+      cursor: "pointer";
+      background-color: "#86af49"
+}
+button:active{
+    background-color: "#86af49"
+
 }
 
