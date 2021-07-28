@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-import { useData } from './shared/Data/useData';
+import { useData } from './shared/hooks/useData';
 import DataSelect from "./shared/uiElements/DataSelectors"
 import { DateSelectorButtonGroup } from "./shared/uiElements/DateSelector"
 import StackedBarChart from "./Chart/StackedBarChart"
@@ -12,6 +12,7 @@ import ReportHeader from "./PDF_Generator/Components/ReportHeader"
 import { ReportBody } from "./PDF_Generator/Components/ReportBody"
 import { GeneratePDF } from "./PDF_Generator/Generate_PDF"
 import LoadingSpinner from "./shared/uiElements/LoadingSpinner"
+import {useGraphData} from './shared/hooks/useGraphData'
 import "./App.css"
 
 
@@ -22,6 +23,8 @@ const App = () => {
   const [currentSensor, setcurrentSensor] = React.useState(dataSetSelecots[0].value);
   const [currentDate, setCurrentDate] = React.useState({ startDate: dateSelector[3].days, endDate: undefined });
   const [display, setDisplay] = React.useState(false)
+
+  const[graphData,updateGraph]= useGraphData(data, currentDate, currentSensor);
 
   const clickHandler = () => {
 
@@ -47,10 +50,10 @@ const App = () => {
         <div >
           <Grid item md={9} style={{  maxWidth:"100%" }} id="divToPrint" >
             <ReportHeader display={display} />
-            <DateSelectorButtonGroup currentDate={currentDate} setCurrentDate={setCurrentDate} dateSelector={dateSelector} display={display} />
+            <DateSelectorButtonGroup currentDate={currentDate} setCurrentDate={setCurrentDate} updateGraph={updateGraph} dateSelector={dateSelector} display={display} />
             <ReportBody display={display}>
 
-              <StackedBarChart data={data} date={currentDate} sensors={currentSensor} />
+              <StackedBarChart data={graphData} date={currentDate} sensors={currentSensor} />
               <h3> Graph Name & description  </h3>
               
             </ReportBody>
@@ -59,7 +62,7 @@ const App = () => {
         <Grid item md={2} style={{  marginLeft:"4%"}}>
           <DataSelect currentSensor={currentSensor} dataSetSelecots={dataSetSelecots} setcurrentSensor={setcurrentSensor} display={display} setDisplay={setDisplay} />
           <Button variant="outlined" color="primary" onClick={clickHandler}>
-            {!display ? "View PDF Report" : "Back"}
+            {!display ? "View PDF" : "Back"}
           </Button>
           <GeneratePDF display={display} />
 

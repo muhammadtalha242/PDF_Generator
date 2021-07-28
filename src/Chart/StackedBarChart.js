@@ -1,6 +1,4 @@
 import React, { useEffect, useRef } from "react";
-import { dateIsBetween, normalize_data } from '../shared/util/utility'
-
 import {
   select,
   scaleBand,
@@ -12,7 +10,6 @@ import {
   stackOrderAscending,
   timeFormat,
   pointer,
-  min,
 } from "d3";
 
 
@@ -20,10 +17,10 @@ import {
  * Component that renders a StackedBarChart
  */
 
-const height = 500;
+const height = 600;
 const width = 760;
 const margin = {
-  top: 20,
+  top: 100,
   right: 10,
   left: 50,
   bottom: 20,
@@ -33,7 +30,7 @@ const innerWidth = width - margin.left - margin.right;
 
 function StackedBarChart({ data, date, sensors }) {
 
-  const colorsArr = ['#7CFC00', "#228B22", "#4F7942", "#50C878"]
+  const colorsArr = ['#d53e4f', "#3288bd", "#66c2a5", "#f46d43"]
   const colors = {};
   sensors.forEach((senson, i) => {
 
@@ -44,7 +41,6 @@ function StackedBarChart({ data, date, sensors }) {
   const outputData = []
 
 
-
   // will be called initially and on every data change
   useEffect(() => {
 
@@ -53,33 +49,7 @@ function StackedBarChart({ data, date, sensors }) {
 
 
     //Reshaping data accoring to need
-    const dataCopy = JSON.parse(JSON.stringify(data));
-    dataCopy.forEach(d => {
-
-      if (dateIsBetween(d.Date, date)) {
-        let dRow = {}
-        if (sensors.length === 4) {
-          dRow["Date"] = d.Date;
-          dRow.temperature = normalize_data(d.avg_temp, min(data, (x) => x.avg_temp), max(data, (x) => x.avg_temp))
-          dRow.co2 = normalize_data(d.avg_co2, min(data, (x) => x.avg_co2), max(data, (x) => x.avg_co2))
-          dRow.humitidy = normalize_data(d.avg_humitidy, min(data, (x) => x.avg_humitidy), max(data, (x) => x.avg_humitidy))
-          dRow.vpd = normalize_data(d.avg_vpd, min(data, (x) => x.avg_vpd), max(data, (x) => x.avg_vpd))
-
-          outputData.push(dRow);
-        }
-        else {
-          sensors.forEach(sensor => {
-            dRow["Date"] = d.Date;
-            if (sensor in d) {
-              dRow[sensor] = d[sensor]
-            }
-          })
-          outputData.push(dRow);
-        }
-      }
-
-
-    })
+    
 
     console.log("outputData: ", outputData)
 
@@ -95,14 +65,13 @@ function StackedBarChart({ data, date, sensors }) {
     ];
 
 
-
     // scales
     const xScale = scaleBand()
       .domain(outputData.map(d => {
         return new Date(d.Date).getTime()
       }))
       .range([0, innerWidth])
-      .padding(0.2);
+
 
     const yScale = scaleLinear()
       .domain(extent)
@@ -129,7 +98,7 @@ function StackedBarChart({ data, date, sensors }) {
       .on("mousemove", function (d) {
         var xPosition = pointer(d, svg.node)[0];
         var yPosition = pointer(d, svg.node)[1];
-        tooltip.attr("transform", `translate( ${xPosition-200 }, ${yPosition-100})`);
+        tooltip.attr("transform", `translate( ${xPosition - 10}, ${yPosition - 10})`);
         tooltip.select("text").text(layer => layer);
       });
     var tooltip = svg.append("g")
@@ -146,13 +115,13 @@ function StackedBarChart({ data, date, sensors }) {
       .attr("class", "x label")
       .attr("text-anchor", "end")
       .attr("x", innerWidth / 2)
-      .attr("y", innerHeight + 60)
+      .attr("y", height + 20)
       .text("Date Month");
 
     svg.append("text")
       .attr("class", "y label")
       .attr("text-anchor", "end")
-      .attr("y", (innerWidth / 2)-350)
+      .attr("y", (innerWidth / 2) - 350)
       .attr("x", (-innerHeight / 2) + 50)
       .attr("dy", ".75em")
       .attr("transform", "rotate(-90)")
@@ -173,6 +142,36 @@ function StackedBarChart({ data, date, sensors }) {
     const yAxis = axisLeft(yScale);
     svg.select(".y-axis").call(yAxis);
 
+    var legend = svg.append('g')
+      .attr('class', 'legend')
+      .attr('transform', 'translate(' + (innerWidth - 90) + ', 20)');
+    legend.selectAll('text')
+      .data(sensors)
+      .enter()
+      .append('text')
+      .text(function (d) {
+        return d;
+      })
+      .attr('x', 18)
+      .attr('y', function (d, i) {
+        return i * 18;
+      })
+      .attr('text-anchor', 'start')
+      .attr('alignment-baseline', 'hanging');
+    legend.selectAll('rect')
+      .data(sensors)
+      .enter()
+      .append('rect')
+      .attr('x', 0)
+      .attr('y', function (d, i) {
+        return i * 18;
+      })
+      .attr('width', 12)
+      .attr('height', 12)
+      .attr('fill', function (d, i) {
+        return colors[d];
+      });
+
 
 
 
@@ -185,7 +184,7 @@ function StackedBarChart({ data, date, sensors }) {
         <g
           transform={`translate(${margin.left},${margin.top})`}
         >
-          <g className="x-axis"></g> 
+          <g className="x-axis"></g>
           <g className="y-axis" />
         </g>
 

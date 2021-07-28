@@ -22,10 +22,13 @@ div span{
 }
 .report-creater{
     display: contents;
+    padding-left:1%;
 
 }
 .d3-chart{
     
 }
 
-
+.report-body{
+    padding: 1%;
+}

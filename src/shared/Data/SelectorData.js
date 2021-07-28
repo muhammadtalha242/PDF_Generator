@@ -6,10 +6,10 @@ export const dataSetSelecots = [
     { key: "All", value: ["temperature", "co2", "humitidy", "vpd"] }
 ]
 export const dateSelector = [
-    { key: "12 hours", days: 0.5 },
-    { key: "1 day", days: 1 },
-    { key: "7 days", days: 7 },
-    { key: "14 days", days: 14 },
-    { key: "30 days", days: 30 },
-    { key: "custome date", days: 0 },
+    { key: "12 hours",  days: 12, type:'hours' },
+    { key: "1 day", days: 1, type:'days' },
+    { key: "7 days", days: 7 ,type:'days'},
+    { key: "14 days", days: 14,type:'days' },
+    { key: "30 days", days: 30,type:'days' },
+    { key: "custome date", days: 0 ,type:'custom'},
 ]

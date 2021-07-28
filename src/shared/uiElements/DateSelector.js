@@ -1,5 +1,6 @@
-import React from 'react';
-
+import React, { useReducer, useCallback } from 'react';
+import moment from 'moment'
+import { addDays } from 'date-fns';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
@@ -24,57 +25,120 @@ const useStyles = makeStyles((theme) => ({
             cursor: "pointer",
             backgroundColor: "#86af49"
         },
-        "&:active":{
+        "&:active": {
             backgroundColor: "#86af49"
         }
     }
 }));
-const selectionRange = {
-    startDate: new Date(),
-    endDate: new Date(),
-    key: 'selection',
+
+const dateReducer = (state, action) => {
+    switch (action.type) {
+
+        case "DECISION":
+            const tempDate = action.tempDate;
+            if (tempDate.days === 0) {
+                let output = {
+                    ...state,
+                    isCustomDate: true
+                }
+                console.log(JSON.stringify(output))
+                return (output)
+            } else {
+
+                let startData = moment().subtract(tempDate.days, tempDate.type)
+                let result = { startDate: startData, endData: moment() };
+                console.log(JSON.stringify(result))
+                return ({
+                    range: result,
+                    isCustomDate: false
+
+                });
+            }
+        // case "SELECT_NON_CUSTOM_DATE":
+
+        //     break;
+        // case "SHOW_CUSTOM_DATE":
+
+        // break;
+        case "CLOSE":
+            console.log("state: ", state)
+            return ({
+                ...state.range,
+                isCustomDate:action.isCustomDate
+
+            });
+        case "SELECT_CUSTOM_DATE":
+            console.log("state: ", state)
+            return ({
+                ...state.isCustomDate,
+                range: action.range,
+                
+            });
+        default:
+            return state;
+    }
 }
 
 
-export function DateSelectorButtonGroup({ dateSelector, currentDate, setCurrentDate, display }) {
+export function DateSelectorButtonGroup({ dateSelector, currentDate, setCurrentDate, display, updateGraph }) {
     const classes = useStyles();
-    const [RangeDisplay, setRangeDisplay] = React.useState(false);
-    const [range, setRange] = React.useState({ startDate: dateSelector[0].days, endDate: undefined });
-    const handleSelect = (ranges) => {
-        setCurrentDate(ranges.selection)
-        setRange(ranges.selection)
 
-    }
+    const [state, dispatch] = useReducer(dateReducer, {
+        range: {
+            startDate: new Date(),
+            endDate: addDays(new Date(), 2),
+            key: 'selection'
+        },
+        isCustomDate: false,
+    })
+
+
+    const [RangeDisplay, setRangeDisplay] = React.useState(false);
+    const [range, setRange] = React.useState({
+        startDate: new Date(),
+        endDate: addDays(new Date(), 2),
+        key: 'selection'
+    });
+    const handleSelect = useCallback((ranges) => {
+        dispatch({
+            type: "SELECT_CUSTOM_DATE",
+            range: ranges.selection
+        })
+    }, [])
     const handleClose = () => {
-        setRangeDisplay(false)
+        dispatch({
+            type: "CLOSE",
+            isCustomDate : false
+        })
+        // setRangeDisplay(false)
     }
     const handleChange = (event) => {
 
-        const tempDate = dateSelector.find(d => (d.key === (event.target.innerText).toLowerCase()))
-        if (tempDate.days === 0) {
-            setRangeDisplay(true)
-        } else {
-            let result = { startDate: tempDate.days, endData: undefined };
-            setCurrentDate(result);
-        }
+        dispatch({
+            type: "DECISION",
+            tempDate: dateSelector.find(d => (d.key === (event.target.innerText).toLowerCase()))
+        })
+
     };
-    if (RangeDisplay) {
+
+    if (state.isCustomDate) {
         return (
             <Modal
-                show={RangeDisplay}
+                show={state.isCustomDate}
                 contentClass="place-item__modal-content"
                 footerClass="place-item__modal-actions"
-                header={`Current date: ${new Date(range.startDate).toDateString()} - ${new Date(range.endDate).toDateString()}`}
+                onCancle={handleClose}
                 footer={<Button onClick={handleClose}>CLOSE</Button>}
             >
                 <DateRangePicker
-                    ranges={[selectionRange]}
+                    ranges={[state.range]}
                     onChange={handleSelect}
+                    showSelectionPreview={true}
+                    moveRangeOnFirstSelection={false}
+                    direction="horizontal"
                 />
-            </Modal>
-        )
+            </Modal>);
     }
-
 
     if (!display) {
         return (
@@ -82,7 +146,7 @@ export function DateSelectorButtonGroup({ dateSelector, currentDate, setCurrentD
 
                 <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
                     {dateSelector.map(d => (
-                        <Button className={classes.buttonHover}  onClick={handleChange} key={d.key}>{d.key}</Button>
+                        <Button className={classes.buttonHover} onClick={handleChange} key={d.key}>{d.key}</Button>
                     ))}
 
                 </ButtonGroup>
@@ -92,4 +156,7 @@ export function DateSelectorButtonGroup({ dateSelector, currentDate, setCurrentD
         );
     }
     return <React.Fragment></React.Fragment>
+
 }
+
+
