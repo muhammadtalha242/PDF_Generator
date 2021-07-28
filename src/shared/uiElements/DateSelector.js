@@ -1,6 +1,5 @@
-import React, { useReducer, useCallback } from 'react';
-import moment from 'moment'
-import { addDays } from 'date-fns';
+import React, { useReducer, useCallback,useEffect } from 'react';
+import { addDays, sub } from 'date-fns';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
@@ -35,44 +34,35 @@ const dateReducer = (state, action) => {
     switch (action.type) {
 
         case "DECISION":
+
             const tempDate = action.tempDate;
             if (tempDate.days === 0) {
-                let output = {
-                    ...state,
+
+                return ({
+                    range: { ...state.range },
                     isCustomDate: true
-                }
-                console.log(JSON.stringify(output))
-                return (output)
+                })
             } else {
 
-                let startData = moment().subtract(tempDate.days, tempDate.type)
-                let result = { startDate: startData, endData: moment() };
-                console.log(JSON.stringify(result))
+                let result = { startDate: sub(new Date(), { [tempDate.type]: [tempDate.days] }), endDate: new Date(), key: 'selection' };
                 return ({
                     range: result,
-                    isCustomDate: false
+                    isCustomDate: state.isCustomDate
 
                 });
             }
-        // case "SELECT_NON_CUSTOM_DATE":
-
-        //     break;
-        // case "SHOW_CUSTOM_DATE":
-
-        // break;
         case "CLOSE":
-            console.log("state: ", state)
             return ({
-                ...state.range,
-                isCustomDate:action.isCustomDate
-
+                range: { ...state.range },
+                isCustomDate: action.isCustomDate
             });
         case "SELECT_CUSTOM_DATE":
-            console.log("state: ", state)
+
             return ({
-                ...state.isCustomDate,
                 range: action.range,
-                
+
+                isCustomDate:state.isCustomDate 
+
             });
         default:
             return state;
@@ -80,7 +70,7 @@ const dateReducer = (state, action) => {
 }
 
 
-export function DateSelectorButtonGroup({ dateSelector, currentDate, setCurrentDate, display, updateGraph }) {
+export function DateSelectorButtonGroup({ dateSelector, display, dateChangeHandler }) {
     const classes = useStyles();
 
     const [state, dispatch] = useReducer(dateReducer, {
@@ -92,13 +82,6 @@ export function DateSelectorButtonGroup({ dateSelector, currentDate, setCurrentD
         isCustomDate: false,
     })
 
-
-    const [RangeDisplay, setRangeDisplay] = React.useState(false);
-    const [range, setRange] = React.useState({
-        startDate: new Date(),
-        endDate: addDays(new Date(), 2),
-        key: 'selection'
-    });
     const handleSelect = useCallback((ranges) => {
         dispatch({
             type: "SELECT_CUSTOM_DATE",
@@ -108,9 +91,8 @@ export function DateSelectorButtonGroup({ dateSelector, currentDate, setCurrentD
     const handleClose = () => {
         dispatch({
             type: "CLOSE",
-            isCustomDate : false
+            isCustomDate: false
         })
-        // setRangeDisplay(false)
     }
     const handleChange = (event) => {
 
@@ -120,6 +102,11 @@ export function DateSelectorButtonGroup({ dateSelector, currentDate, setCurrentD
         })
 
     };
+
+    const {range}=state
+    useEffect(()=>{
+        dateChangeHandler(range)
+    },[dateChangeHandler, range])
 
     if (state.isCustomDate) {
         return (

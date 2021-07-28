@@ -24,7 +24,7 @@ const App = () => {
   const [currentDate, setCurrentDate] = React.useState({ startDate: dateSelector[3].days, endDate: undefined });
   const [display, setDisplay] = React.useState(false)
 
-  const[graphData,updateGraph]= useGraphData(data, currentDate, currentSensor);
+  const[graphData,dateChangeHandler, sensorChangeHandler]= useGraphData(data, currentDate, currentSensor);
 
   const clickHandler = () => {
 
@@ -50,7 +50,7 @@ const App = () => {
         <div >
           <Grid item md={9} style={{  maxWidth:"100%" }} id="divToPrint" >
             <ReportHeader display={display} />
-            <DateSelectorButtonGroup currentDate={currentDate} setCurrentDate={setCurrentDate} updateGraph={updateGraph} dateSelector={dateSelector} display={display} />
+            <DateSelectorButtonGroup dateChangeHandler={dateChangeHandler} dateSelector={dateSelector} display={display} />
             <ReportBody display={display}>
 
               <StackedBarChart data={graphData} date={currentDate} sensors={currentSensor} />
@@ -60,7 +60,7 @@ const App = () => {
           </Grid>
         </div>
         <Grid item md={2} style={{  marginLeft:"4%"}}>
-          <DataSelect currentSensor={currentSensor} dataSetSelecots={dataSetSelecots} setcurrentSensor={setcurrentSensor} display={display} setDisplay={setDisplay} />
+          <DataSelect currentSensor={currentSensor} dataSetSelecots={dataSetSelecots} setcurrentSensor={setcurrentSensor} display={display} setDisplay={setDisplay} sensorChangeHandler={sensorChangeHandler} />
           <Button variant="outlined" color="primary" onClick={clickHandler}>
             {!display ? "View PDF" : "Back"}
           </Button>

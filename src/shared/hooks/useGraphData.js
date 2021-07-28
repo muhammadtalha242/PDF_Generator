@@ -3,9 +3,10 @@ import { useReducer, useCallback } from "react";
 
 const graphDataReducer = (state, action) => {
     switch (action.type) {
-        case "UPDATE_DATA":
-            const data = state.data;
-            const { sensors, dateRange } = action;
+        case "DATE_CHANGE":
+            // const data = state.data;
+            // const { sensors, dateRange } = action;
+            console.log("DATE_CHANGE:", action.dateRange)
 
             // const dataCopy = JSON.parse(JSON.stringify(data));
             // dataCopy.forEach(d => {
@@ -38,6 +39,8 @@ const graphDataReducer = (state, action) => {
 
             // })
             break;
+        case "SENSOR_CHANGE":
+            break;
 
         default:
             return state;
@@ -53,10 +56,14 @@ export const useGraphData = (inputData, dateRange, sensors) => {
     })
 
 
-    const updateGraphData = useCallback((update) => {
-        dispatch({ type: "UPDATE_DATA", dateRange: update.dateRange, sensors: update.sensors })
-    })
+    const dateChangeHandler = useCallback((dateRange) => {
+        dispatch({ type: "DATE_CHANGE", dateRange: dateRange })
+    },[])
 
-    return [graphData, updateGraphData]
+    const sensorChangeHandler = useCallback((sensors) => {
+        dispatch({ type: "SENSOR_CHANGE", sensors: sensors })
+    },[])
+
+    return [graphData, dateChangeHandler, sensorChangeHandler]
 
 }
