@@ -1,0 +1,36 @@
+{
+  "files": {
+    "main.css": "/PDF_Generator/static/css/main.ac43223b.chunk.css",
+    "main.js": "/PDF_Generator/static/js/main.fb517900.chunk.js",
+    "main.js.map": "/PDF_Generator/static/js/main.fb517900.chunk.js.map",
+    "runtime-main.js": "/PDF_Generator/static/js/runtime-main.dbf52521.js",
+    "runtime-main.js.map": "/PDF_Generator/static/js/runtime-main.dbf52521.js.map",
+    "static/js/2.e08d1ce1.chunk.js": "/PDF_Generator/static/js/2.e08d1ce1.chunk.js",
+    "static/js/2.e08d1ce1.chunk.js.map": "/PDF_Generator/static/js/2.e08d1ce1.chunk.js.map",
+    "static/css/3.5166761a.chunk.css": "/PDF_Generator/static/css/3.5166761a.chunk.css",
+    "static/js/3.0933ccba.chunk.js": "/PDF_Generator/static/js/3.0933ccba.chunk.js",
+    "static/js/3.0933ccba.chunk.js.map": "/PDF_Generator/static/js/3.0933ccba.chunk.js.map",
+    "static/js/4.225719d8.chunk.js": "/PDF_Generator/static/js/4.225719d8.chunk.js",
+    "static/js/4.225719d8.chunk.js.map": "/PDF_Generator/static/js/4.225719d8.chunk.js.map",
+    "static/js/5.02ff6f90.chunk.js": "/PDF_Generator/static/js/5.02ff6f90.chunk.js",
+    "static/js/5.02ff6f90.chunk.js.map": "/PDF_Generator/static/js/5.02ff6f90.chunk.js.map",
+    "static/js/6.3c3db6f9.chunk.js": "/PDF_Generator/static/js/6.3c3db6f9.chunk.js",
+    "static/js/6.3c3db6f9.chunk.js.map": "/PDF_Generator/static/js/6.3c3db6f9.chunk.js.map",
+    "index.html": "/PDF_Generator/index.html",
+    "static/css/3.5166761a.chunk.css.map": "/PDF_Generator/static/css/3.5166761a.chunk.css.map",
+    "static/css/main.ac43223b.chunk.css.map": "/PDF_Generator/static/css/main.ac43223b.chunk.css.map",
+    "static/js/2.e08d1ce1.chunk.js.LICENSE.txt": "/PDF_Generator/static/js/2.e08d1ce1.chunk.js.LICENSE.txt",
+    "static/js/3.0933ccba.chunk.js.LICENSE.txt": "/PDF_Generator/static/js/3.0933ccba.chunk.js.LICENSE.txt",
+    "static/js/4.225719d8.chunk.js.LICENSE.txt": "/PDF_Generator/static/js/4.225719d8.chunk.js.LICENSE.txt",
+    "static/js/5.02ff6f90.chunk.js.LICENSE.txt": "/PDF_Generator/static/js/5.02ff6f90.chunk.js.LICENSE.txt",
+    "static/media/2021_week19_climate_data.513ad7be.csv": "/PDF_Generator/static/media/2021_week19_climate_data.513ad7be.csv",
+    "static/media/logo.872fc8ea.png": "/PDF_Generator/static/media/logo.872fc8ea.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.dbf52521.js",
+    "static/css/3.5166761a.chunk.css",
+    "static/js/3.0933ccba.chunk.js",
+    "static/css/main.ac43223b.chunk.css",
+    "static/js/main.fb517900.chunk.js"
+  ]
+}
