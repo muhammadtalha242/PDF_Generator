@@ -53,7 +53,6 @@ function StackedBarChart({ graphData }) {
     //Reshaping data accoring to need
     
 
-    console.log("outputData: ", outputData)
 
     // stacks / layers
     const stackGenerator = stack()

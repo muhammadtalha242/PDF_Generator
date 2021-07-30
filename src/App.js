@@ -43,8 +43,7 @@ const App = () => {
     )
   }
 
-  const { outputData, selectedSensors, dateRange } = graphData;
-  console.log("APP =>> outputData, selectedSensors, dateRange: ", outputData, selectedSensors, dateRange)
+  const { outputData } = graphData;
   return (
     <React.Fragment >
 
