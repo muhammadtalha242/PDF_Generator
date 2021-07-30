@@ -1,6 +1,6 @@
 {
-  "homepage":"https://muhammadtalha242.github.io/PDF_Generator/",
-  "name": "pdf_viewer_app", 
+  "homepage": "https://muhammadtalha242.github.io/PDF_Generator/",
+  "name": "pdf_viewer_app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

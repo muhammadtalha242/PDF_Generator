@@ -48,13 +48,13 @@ export const useData = () => {
       const vpd_min = min(data, (x) => x.avg_vpd);
       const vpd_max = max(data, (x) => x.avg_vpd);
       
-      data.forEach((d, i) => {
+      data.forEach((d) => {
         d.temperature = normalize_data(d.avg_temp, temp_min, temp_max)
         d.co2 = normalize_data(d.avg_co2, co2_min, co2_max)
         d.humitidy = normalize_data(d.avg_humitidy, humitidy_min, humitidy_max)
         d.vpd = normalize_data(d.avg_vpd, vpd_min,vpd_max)
       })
-      setData(data.slice(0,100));
+      setData(data);
     })
 
   }, []);
