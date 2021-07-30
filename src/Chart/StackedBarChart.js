@@ -28,7 +28,12 @@ const margin = {
 const innerHeight = height - margin.top - margin.bottom;
 const innerWidth = width - margin.left - margin.right;
 
-function StackedBarChart({ data, date, sensors }) {
+function StackedBarChart({ graphData }) {
+  const {outputData, selectedSensors, dateRange} = graphData;
+
+  console.log("StackedBarChart:=> outputData, selectedSensors, dateRange: ", outputData, selectedSensors, dateRange)
+  const sensors = selectedSensors
+
 
   const colorsArr = ['#d53e4f', "#3288bd", "#66c2a5", "#f46d43"]
   const colors = {};
@@ -37,8 +42,6 @@ function StackedBarChart({ data, date, sensors }) {
     colors[senson] = colorsArr[i]
   });
   const svgRef = useRef();
-  const wrapperRef = useRef();
-  const outputData = []
 
 
   // will be called initially and on every data change
@@ -175,7 +178,7 @@ function StackedBarChart({ data, date, sensors }) {
 
 
 
-  }, [outputData, data, date, sensors, colors]);
+  }, [outputData, sensors, colors, dateRange]);
 
   return (
     <React.Fragment>

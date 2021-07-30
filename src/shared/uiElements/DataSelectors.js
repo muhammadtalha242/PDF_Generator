@@ -19,21 +19,24 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function DataSelect({ currentSensor, setcurrentSensor, dataSetSelecots, display, setDisplay }) {
+export default function DataSelect({ dataSetSelecots, sensorChangeHandler }) {
     const classes = useStyles();
+    const [currentSensor, setcurrentSensor] = React.useState(dataSetSelecots[0].value);
 
     const handleChange = (event) => {
-
         setcurrentSensor(event.target.value);
+        
     };
+    React.useEffect(()=>{
+        sensorChangeHandler(currentSensor)
+    },[sensorChangeHandler,currentSensor])
 
     return (
         <div className={classes.selectEmpty}>
             <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel id="demo-simple-select-outlined-label">Sensors</InputLabel>
+                <InputLabel id="Sensor Selectors">Sensors</InputLabel>
                 <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
+                    labelId="Sensor Selectors"
                     value={currentSensor}
                     onChange={handleChange}
                     label="Sensor"

@@ -54,7 +54,7 @@ export const useData = () => {
         d.humitidy = normalize_data(d.avg_humitidy, humitidy_min, humitidy_max)
         d.vpd = normalize_data(d.avg_vpd, vpd_min,vpd_max)
       })
-      setData(data);
+      setData(data.slice(0,100));
     })
 
   }, []);

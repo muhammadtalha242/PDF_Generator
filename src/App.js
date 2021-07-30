@@ -12,7 +12,8 @@ import ReportHeader from "./PDF_Generator/Components/ReportHeader"
 import { ReportBody } from "./PDF_Generator/Components/ReportBody"
 import { GeneratePDF } from "./PDF_Generator/Generate_PDF"
 import LoadingSpinner from "./shared/uiElements/LoadingSpinner"
-import {useGraphData} from './shared/hooks/useGraphData'
+import { useGraphData } from './shared/hooks/useGraphData'
+import Card from './shared/uiElements/Card'
 import "./App.css"
 
 
@@ -20,11 +21,8 @@ import "./App.css"
 
 const App = () => {
   const data = useData();
-  const [currentSensor, setcurrentSensor] = React.useState(dataSetSelecots[0].value);
-  const [currentDate, setCurrentDate] = React.useState({ startDate: dateSelector[3].days, endDate: undefined });
   const [display, setDisplay] = React.useState(false)
-
-  const[graphData,dateChangeHandler, sensorChangeHandler]= useGraphData(data, currentDate, currentSensor);
+  const [graphData, dateChangeHandler, sensorChangeHandler, setGraphData] = useGraphData(data);
 
   const clickHandler = () => {
 
@@ -32,7 +30,11 @@ const App = () => {
 
   };
 
-  
+  React.useEffect(() => {
+    if (data)
+      setGraphData(data)
+  }, [data, setGraphData])
+
   if (!data) {
     return (
       <div className="center">
@@ -41,26 +43,34 @@ const App = () => {
     )
   }
 
-
+  const { outputData, selectedSensors, dateRange } = graphData;
+  console.log("APP =>> outputData, selectedSensors, dateRange: ", outputData, selectedSensors, dateRange)
   return (
     <React.Fragment >
 
       <Grid container  >
-        <Grid item md={1} style={{  marginLeft:"10%"}} ></Grid>
+        <Grid item md={1} style={{ marginLeft: "10%" }} ></Grid>
         <div >
-          <Grid item md={9} style={{  maxWidth:"100%" }} id="divToPrint" >
+          <Grid item md={9} style={{ maxWidth: "100%" }} id="divToPrint" >
             <ReportHeader display={display} />
             <DateSelectorButtonGroup dateChangeHandler={dateChangeHandler} dateSelector={dateSelector} display={display} />
-            <ReportBody display={display}>
+            {outputData === undefined || outputData.length === 0 ? (
+              <div className="center">
+                <Card>
+                  <h2>NO data found, Select different date range!</h2>
+                </Card>
+              </div>) :
+                  (<ReportBody display={display}>
 
-              <StackedBarChart data={graphData} date={currentDate} sensors={currentSensor} />
-              <h3> Graph Name & description  </h3>
-              
-            </ReportBody>
+                <StackedBarChart graphData={graphData} />
+
+                <h3> Graph Name & description  </h3>
+              </ReportBody>
+                )}
           </Grid>
         </div>
-        <Grid item md={2} style={{  marginLeft:"4%"}}>
-          <DataSelect currentSensor={currentSensor} dataSetSelecots={dataSetSelecots} setcurrentSensor={setcurrentSensor} display={display} setDisplay={setDisplay} sensorChangeHandler={sensorChangeHandler} />
+        <Grid item md={2} style={{ marginLeft: "4%" }}>
+          <DataSelect dataSetSelecots={dataSetSelecots} sensorChangeHandler={sensorChangeHandler} />
           <Button variant="outlined" color="primary" onClick={clickHandler}>
             {!display ? "View PDF" : "Back"}
           </Button>
@@ -76,14 +86,6 @@ const App = () => {
 
     </React.Fragment>
   );
-
-  // else {
-  //   return (<PDFViewer>
-  //         <DataSelect currentSensor={currentSensor} dataSetSelecots={dataSetSelecots} setcurrentSensor={setcurrentSensor} display={display} setDisplay={setDisplay} />
-
-  //     <MyDocument />
-  //   </PDFViewer>)
-  // }
 }
 
 
