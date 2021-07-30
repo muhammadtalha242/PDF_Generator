@@ -5,7 +5,7 @@ import { useData } from './shared/hooks/useData';
 import DataSelect from "./shared/uiElements/DataSelectors"
 import { DateSelectorButtonGroup } from "./shared/uiElements/DateSelector"
 import StackedBarChart from "./Chart/StackedBarChart"
-import { dataSetSelecots, dateSelector } from "./shared/Data/SelectorData"
+import { dataSetSelector, dateSelector } from "./shared/Data/SelectorData"
 import { Grid } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import ReportHeader from "./PDF_Generator/Components/ReportHeader"
@@ -70,7 +70,7 @@ const App = () => {
           </Grid>
         </div>
         <Grid item md={2} style={{ marginLeft: "4%" }}>
-          <DataSelect dataSetSelecots={dataSetSelecots} sensorChangeHandler={sensorChangeHandler} />
+          <DataSelect dataSetSelector={dataSetSelector} sensorChangeHandler={sensorChangeHandler} />
           <Button variant="outlined" color="primary" onClick={clickHandler}>
             {!display ? "View PDF" : "Back"}
           </Button>

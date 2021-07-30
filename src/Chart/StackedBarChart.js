@@ -31,7 +31,6 @@ const innerWidth = width - margin.left - margin.right;
 function StackedBarChart({ graphData }) {
   const {outputData, selectedSensors, dateRange} = graphData;
 
-  console.log("StackedBarChart:=> outputData, selectedSensors, dateRange: ", outputData, selectedSensors, dateRange)
   const sensors = selectedSensors
 
 

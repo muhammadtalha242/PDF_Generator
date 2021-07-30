@@ -1,4 +1,4 @@
-export const dataSetSelecots = [
+export const dataSetSelector = [
     { key: "Temperature", value: ["Temperature_2", "Temperature_137522"] },
     { key: "Co2 Levels", value: ["CarbonDioxide_2", "CarbonDioxide_137522"] },
     { key: "Humidity", value: ["Humitidy_2", "Humitidy_137522"] },

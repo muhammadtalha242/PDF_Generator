@@ -19,9 +19,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function DataSelect({ dataSetSelecots, sensorChangeHandler }) {
+export default function DataSelect({ dataSetSelector, sensorChangeHandler }) {
     const classes = useStyles();
-    const [currentSensor, setcurrentSensor] = React.useState(dataSetSelecots[0].value);
+    const [currentSensor, setcurrentSensor] = React.useState(dataSetSelector[0].value);
 
     const handleChange = (event) => {
         setcurrentSensor(event.target.value);
@@ -42,7 +42,7 @@ export default function DataSelect({ dataSetSelecots, sensorChangeHandler }) {
                     label="Sensor"
                 >
                     {
-                        dataSetSelecots.map(d => (
+                        dataSetSelector.map(d => (
                             <MenuItem value={d.value} key={d.key}>{d.key}</MenuItem>
                         ))
                     }
