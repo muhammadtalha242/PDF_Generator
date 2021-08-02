@@ -7,8 +7,7 @@ import csvData from '../Data/2021_week19_climate_data.csv';
 
 // Data URL
 //const csvURL =
-//'https://gist.githubusercontent.com/muhammadtalha242/f960d2b81ab04f7e5bac5d00cecb4b1a/raw/worldPop.csv';
-
+//'https://gist.githubusercontent.com/muhammadtalha242/78db5009c23be0194f49155fc1b10874/raw/2021_week19_climate_data.csv';
 
 
 export const useData = () => {
