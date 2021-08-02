@@ -8,7 +8,7 @@ import csvData from '../Data/2021_week19_climate_data.csv';
 // Data URL
 //const csvURL =
 //'https://gist.githubusercontent.com/muhammadtalha242/78db5009c23be0194f49155fc1b10874/raw/2021_week19_climate_data.csv';
-
+//json: https://gist.githubusercontent.com/muhammadtalha242/aa4c3d1f545f4464e8512d6f773eb306/raw/data.json
 
 export const useData = () => {
   const [data, setData] = useState(null);
